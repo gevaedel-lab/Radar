@@ -1,0 +1,29 @@
+{
+    "name": "מכמ 2",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "radio": "*",
+        "microphone": "*",
+        "pxt-sonar": "github:microsoft/pxt-sonar#v0.0.6",
+        "servo": "*",
+        "SuperBit": "github:yahboomTechnology/Superbit#a1aa3ca033143a070d67f7005b71fbe6f279402a"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "main.py"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "8.0.18",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}
