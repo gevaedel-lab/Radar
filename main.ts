@@ -1,36 +1,66 @@
-let זווית_רדאר = 0
-let זמן_השהיה = 0
-let רדאר_פועל = 0
-let זווית_תותח = 0
-let מרחק = 0
-let זווית_סריקה_מקסימאלית = 0
-let מרחק_גילוי_מקסימאלי = 0
+input.onGesture(Gesture.LogoUp, function () {
+    if (הפעלת_נסיעה == 1) {
+        radio.sendValue("מהירות", -255)
+    } else if (הפעלת_נסיעה == 0) {
+        radio.sendValue("מהירות", 0)
+    }
+})
+input.onGesture(Gesture.TiltRight, function () {
+	
+})
 input.onButtonPressed(Button.A, function () {
-    זווית_רדאר = 45
-    זמן_השהיה = 200
-    SuperBit.Servo2(SuperBit.enServo.S3, זווית_רדאר)
-    basic.pause(1000)
-    רדאר_פועל = 1
+    radio.sendValue("כפתור", 1)
 })
 function חשב_זווית_תותח (זווית_רדאר: number) {
     זווית_תותח = 270 - זווית_רדאר * 2
     זווית_תותח = זווית_תותח - 90
 }
 input.onButtonPressed(Button.AB, function () {
-	
-})
-input.onButtonPressed(Button.B, function () {
-    if (רדאר_פועל == 0) {
-        SuperBit.MotorRun(SuperBit.enMotors.M1, -255)
-        basic.pause(1000)
-        SuperBit.MotorRun(SuperBit.enMotors.M1, 0)
-    } else if (רדאר_פועל == 1) {
-        רדאר_פועל = 0
+    if (הפעלת_נסיעה == 0) {
+        הפעלת_נסיעה = 1
+    } else if (הפעלת_נסיעה == 1) {
+        הפעלת_נסיעה = 0
+        radio.sendValue("מהירות", 0)
     }
 })
+input.onButtonPressed(Button.B, function () {
+    radio.sendValue("כפתור", 2)
+})
+radio.onReceivedValue(function (name, value) {
+    if (1 == value && "כפתור" == name) {
+        זווית_רדאר = 55
+        זמן_השהיה = 200
+        SuperBit.Servo2(SuperBit.enServo.S3, זווית_רדאר)
+        basic.pause(1000)
+        רדאר_פועל = 1
+    } else if (2 == value && "כפתור" == name) {
+        if (רדאר_פועל == 0) {
+            SuperBit.MotorRun(SuperBit.enMotors.M1, -255)
+            basic.pause(1000)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, 0)
+        } else if (רדאר_פועל == 1) {
+            רדאר_פועל = 0
+        }
+    } else if ("מהירות" == name) {
+        SuperBit.MotorRun(SuperBit.enMotors.M2, value)
+        SuperBit.MotorRun(SuperBit.enMotors.M3, value)
+    } else {
+    	
+    }
+})
+let מרחק_גילוי_מקסימאלי = 0
+let זווית_סריקה_מקסימאלית = 0
+let מרחק = 0
+let רדאר_פועל = 0
+let זמן_השהיה = 0
+let זווית_רדאר = 0
+let זווית_תותח = 0
+let הפעלת_נסיעה = 0
+radio.setGroup(108)
+הפעלת_נסיעה = 0
 basic.forever(function () {
     מרחק = 1000
-    זווית_סריקה_מקסימאלית = 90
+    זווית_סריקה_מקסימאלית = 110
     מרחק_גילוי_מקסימאלי = 100
     while (רדאר_פועל == 1) {
         while (זווית_רדאר < זווית_סריקה_מקסימאלית) {
