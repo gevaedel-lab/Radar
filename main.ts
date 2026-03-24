@@ -1,16 +1,14 @@
 input.onGesture(Gesture.ScreenUp, function () {
-    while (true) {
-        radio.sendValue("מהירות", -255)
-        basic.pause(1000)
-        radio.sendValue("כיוון", 0)
-        basic.showLeds(`
-            . . # . .
-            . # # # .
-            # . # . #
-            . . # . .
-            . . # . .
-            `)
-    }
+    radio.sendValue("מהירות", -255)
+    basic.pause(1000)
+    radio.sendValue("כיוון", 0)
+    basic.showLeds(`
+        . . # . .
+        . # # # .
+        # . # . #
+        . . # . .
+        . . # . .
+        `)
 })
 input.onGesture(Gesture.TiltRight, function () {
     radio.sendValue("כיוון", 1)
@@ -55,7 +53,7 @@ input.onGesture(Gesture.TiltLeft, function () {
 input.onButtonPressed(Button.AB, function () {
     if (הפעלת_נסיעה == 0) {
         הפעלת_נסיעה = 1
-        radio.sendValue("הפעלת נסיעה", 1)
+        radio.sendValue("תזוזה", 1)
     } else if (הפעלת_נסיעה == 1) {
         הפעלת_נסיעה = 0
         מהירות = 0
@@ -67,7 +65,7 @@ input.onButtonPressed(Button.AB, function () {
             # # # # #
             `)
         radio.sendValue("מהירות", 0)
-        radio.sendValue("הפעלת נסיעה", 0)
+        radio.sendValue("תזוזה", 0)
     }
 })
 input.onButtonPressed(Button.B, function () {
@@ -85,6 +83,13 @@ radio.onReceivedValue(function (name, value) {
         SuperBit.Servo2(SuperBit.enServo.S3, זווית_רדאר)
         basic.pause(1000)
         רדאר_פועל = 1
+        basic.showLeds(`
+            . . # . .
+            . # # . .
+            . . # . .
+            . . # . .
+            . # # # .
+            `)
     } else if (2 == value && "כפתור" == name) {
         if (רדאר_פועל == 0) {
             SuperBit.MotorRun(SuperBit.enMotors.M1, -255)
@@ -93,12 +98,40 @@ radio.onReceivedValue(function (name, value) {
         } else if (רדאר_פועל == 1) {
             רדאר_פועל = 0
         }
+        basic.showLeds(`
+            . # # . .
+            # . . # .
+            . . # . .
+            . # . . .
+            # # # # .
+            `)
     } else if ("מהירות" == name) {
         מהירות = value
+        basic.showLeds(`
+            # . . . #
+            # # . . #
+            # . # . #
+            # . . # #
+            # . . . #
+            `)
     } else if ("כיוון" == name) {
         כיוון = value
-    } else if ("הפעלת נסיעה" == name) {
+        basic.showLeds(`
+            . # # # .
+            . . . . #
+            . . . . #
+            . . . . #
+            . # # # .
+            `)
+    } else if ("תזוזה" == name) {
         הפעלת_נסיעה = value
+        basic.showLeds(`
+            . # # # .
+            . . . . #
+            . . . . #
+            . # . . #
+            . # . . #
+            `)
     }
 })
 let זווית_סריקה_מקסימאלית = 0
@@ -161,7 +194,7 @@ basic.forever(function () {
                     . . . # .
                     . . # . .
                     `)
-                SuperBit.MotorRun(SuperBit.enMotors.M2, מהירות + 30)
+                SuperBit.MotorRun(SuperBit.enMotors.M2, מהירות + 150)
                 SuperBit.MotorRun(SuperBit.enMotors.M3, מהירות)
             } else if (כיוון == -1) {
                 basic.showLeds(`
@@ -172,7 +205,7 @@ basic.forever(function () {
                     . . # . .
                     `)
                 SuperBit.MotorRun(SuperBit.enMotors.M2, מהירות)
-                SuperBit.MotorRun(SuperBit.enMotors.M3, מהירות + 30)
+                SuperBit.MotorRun(SuperBit.enMotors.M3, מהירות + 150)
             } else if (כיוון == 0) {
                 basic.showLeds(`
                     . . # . .
