@@ -1,26 +1,10 @@
-input.onGesture(Gesture.ScreenUp, function () {
-    radio.sendValue("מהירות", -255)
-    basic.pause(1000)
-    radio.sendValue("כיוון", 0)
-    basic.showLeds(`
-        . . # . .
-        . # # # .
-        # . # . #
-        . . # . .
-        . . # . .
-        `)
-})
-input.onGesture(Gesture.TiltRight, function () {
-    radio.sendValue("כיוון", 1)
-    basic.showLeds(`
-        . . # . .
-        . . . # .
-        # # # # #
-        . . . # .
-        . . # . .
-        `)
-    music.play(music.stringPlayable("F - - - F - - - ", 200), music.PlaybackMode.UntilDone)
-})
+function אזורמת (זוויתפניה: number, זוויתמינימאלית: number) {
+    if (זוויתפניה < זוויתמינימאלית) {
+        return 0
+    } else {
+        return זוויתפניה
+    }
+}
 function חישוב_גילוי () {
     if (מרחק_גילוי_RADAR < מרחק_גילוי_מקסימאלי) {
         if (קול >= 1) {
@@ -39,17 +23,6 @@ function חשב_זווית_תותח (זווית_רדאר: number) {
     זווית_תותח = 270 - זווית_רדאר * 2
     זווית_תותח = זווית_תותח - 90
 }
-input.onGesture(Gesture.TiltLeft, function () {
-    radio.sendValue("כיוון", -1)
-    basic.showLeds(`
-        . . # . .
-        . # . . .
-        # # # # #
-        . # . . .
-        . . # . .
-        `)
-    music.play(music.stringPlayable("C5 - - - C5 - - - ", 200), music.PlaybackMode.UntilDone)
-})
 input.onButtonPressed(Button.AB, function () {
     if (הפעלת_נסיעה == 0) {
         הפעלת_נסיעה = 1
